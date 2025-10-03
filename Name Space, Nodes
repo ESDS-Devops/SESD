@@ -1,0 +1,48 @@
+
+kubectl get ns
+NAME              STATUS   AGE
+default           Active   122d
+demo              Active   63d
+english-ai        Active   100d
+gpu-operator      Active   61d
+ingress-nginx     Active   119d
+kube-flannel      Active   122d
+kube-node-lease   Active   122d
+kube-public       Active   122d
+kube-system       Active   122d
+marathi-ai        Active   102d
+marathi-gpu       Active   59d
+metallb-system    Active   118d
+monitoring        Active   111d
+nipun-app         Active   119d
+redis             Active   115d
+
+------------------------------------------------------------------------------------
+
+kubectl get no -owide
+NAME                       STATUS   ROLES           AGE    VERSION    INTERNAL-IP    EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION     CONTAINER-RUNTIME
+esds-7144-testing-server   Ready    new-worker      63d    v1.30.14   10.48.222.16   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+esds-7144-woker20          Ready    gpu-worker      62d    v1.30.14   10.48.222.24   <none>        Ubuntu 24.04.2 LTS   6.8.0-79-generic   containerd://1.7.27
+master1                    Ready    control-plane   122d   v1.30.13   10.48.222.2    <none>        Ubuntu 24.04.2 LTS   6.8.0-60-generic   containerd://1.7.27
+master1-grafana            Ready    infra           111d   v1.30.13   10.48.222.10   <none>        Ubuntu 24.04.2 LTS   6.8.0-60-generic   containerd://1.7.27
+master2                    Ready    control-plane   51d    v1.30.14   10.48.222.3    <none>        Ubuntu 24.04.2 LTS   6.8.0-71-generic   containerd://1.7.27
+master3                    Ready    control-plane   122d   v1.30.13   10.48.222.4    <none>        Ubuntu 24.04.2 LTS   6.8.0-62-generic   containerd://1.7.27
+worker10                   Ready    new-worker      62d    v1.30.14   10.48.222.22   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker11                   Ready    new-worker      62d    v1.30.14   10.48.222.23   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker12                   Ready    new-worker      56d    v1.30.14   10.48.222.27   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker13                   Ready    new-worker      56d    v1.30.14   10.48.222.28   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker14                   Ready    new-worker      56d    v1.30.14   10.48.222.29   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker15                   Ready    new-worker      56d    v1.30.14   10.48.222.30   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker16                   Ready    new-worker      56d    v1.30.14   10.48.222.31   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker17                   Ready    new-worker      54d    v1.30.14   10.48.222.32   <none>        Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://1.7.27
+worker18                   Ready    new-worker      54d    v1.30.14   10.48.222.33   <none>        Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://1.7.27
+worker19                   Ready    new-worker      54d    v1.30.14   10.48.222.34   <none>        Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://1.7.27
+worker20                   Ready    new-worker      54d    v1.30.14   10.48.222.35   <none>        Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://1.7.27
+worker21                   Ready    new-worker      51d    v1.30.14   10.48.222.36   <none>        Ubuntu 24.04.3 LTS   6.8.0-71-generic   containerd://1.7.27
+worker22                   Ready    new-worker      53d    v1.30.14   10.48.222.37   <none>        Ubuntu 24.04.2 LTS   6.8.0-62-generic   containerd://1.7.27
+worker23                   Ready    new-worker      53d    v1.30.14   10.48.222.38   <none>        Ubuntu 24.04.2 LTS   6.8.0-62-generic   containerd://1.7.27
+worker24                   Ready    new-worker      53d    v1.30.14   10.48.222.39   <none>        Ubuntu 24.04.2 LTS   6.8.0-62-generic   containerd://1.7.27
+worker25                   Ready    new-worker      53d    v1.30.14   10.48.222.40   <none>        Ubuntu 24.04.2 LTS   6.8.0-62-generic   containerd://1.7.27
+worker26                   Ready    new-worker      53d    v1.30.14   10.48.222.41   <none>        Ubuntu 24.04.2 LTS   6.8.0-62-generic   containerd://1.7.27
+worker8                    Ready    new-worker      62d    v1.30.14   10.48.222.20   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
+worker9                    Ready    new-worker      62d    v1.30.14   10.48.222.21   <none>        Ubuntu 24.04.3 LTS   6.8.0-62-generic   containerd://1.7.27
