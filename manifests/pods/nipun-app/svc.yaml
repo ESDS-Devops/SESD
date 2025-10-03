@@ -1,0 +1,41 @@
+kubectl get svc -n nipun-app
+NAME            TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+nipun-service   ClusterIP   10.110.39.64   <none>        8000/TCP   119d
+root@Bastion-Host:~# kubectl get svc -n nipun-app -o yaml
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"name":"nipun-service","namespace":"nipun-app"},"spec":{"ports":[{"name":"http","port":8000,"protocol":"TCP","targetPort":8000}],"selector":{"app":"nipun"},"type":"ClusterIP"}}
+      metallb.universe.tf/ip-allocated-from-pool: first-pool
+    creationTimestamp: "2025-06-06T04:40:37Z"
+    name: nipun-service
+    namespace: nipun-app
+    resourceVersion: "754269"
+    uid: f1067cb7-ce27-46ef-a45b-607b5eeedd12
+  spec:
+    clusterIP: 10.110.39.64
+    clusterIPs:
+    - 10.110.39.64
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+    selector:
+      app: nipun
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+

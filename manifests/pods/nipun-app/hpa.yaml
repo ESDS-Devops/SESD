@@ -1,0 +1,93 @@
+kubectl get hpa -n nipun-app
+NAME        REFERENCE                     TARGETS                        MINPODS   MAXPODS   REPLICAS   AGE
+nipun-hpa   Deployment/nipun-deployment   cpu: 0%/50%, memory: 29%/60%   10        80        10         115d
+root@Bastion-Host:~# kubectl get hpa -n nipun-app  -o yaml
+apiVersion: v1
+items:
+- apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"autoscaling/v2","kind":"HorizontalPodAutoscaler","metadata":{"annotations":{},"name":"nipun-hpa","namespace":"nipun-app"},"spec":{"behavior":{"scaleDown":{"policies":[{"periodSeconds":60,"type":"Percent","value":50}],"selectPolicy":"Max","stabilizationWindowSeconds":300},"scaleUp":{"policies":[{"periodSeconds":60,"type":"Percent","value":100},{"periodSeconds":60,"type":"Pods","value":4}],"selectPolicy":"Max","stabilizationWindowSeconds":30}},"maxReplicas":30,"metrics":[{"resource":{"name":"cpu","target":{"averageUtilization":50,"type":"Utilization"}},"type":"Resource"},{"resource":{"name":"memory","target":{"averageUtilization":60,"type":"Utilization"}},"type":"Resource"}],"minReplicas":5,"scaleTargetRef":{"apiVersion":"apps/v1","kind":"Deployment","name":"nipun-deployment"}}}
+    creationTimestamp: "2025-06-09T07:48:12Z"
+    name: nipun-hpa
+    namespace: nipun-app
+    resourceVersion: "54174648"
+    uid: 717305fe-990d-4d57-b8a8-67fee1da6bab
+  spec:
+    behavior:
+      scaleDown:
+        policies:
+        - periodSeconds: 60
+          type: Percent
+          value: 50
+        selectPolicy: Max
+        stabilizationWindowSeconds: 300
+      scaleUp:
+        policies:
+        - periodSeconds: 60
+          type: Percent
+          value: 100
+        - periodSeconds: 60
+          type: Pods
+          value: 4
+        selectPolicy: Max
+        stabilizationWindowSeconds: 30
+    maxReplicas: 80
+    metrics:
+    - resource:
+        name: cpu
+        target:
+          averageUtilization: 50
+          type: Utilization
+      type: Resource
+    - resource:
+        name: memory
+        target:
+          averageUtilization: 60
+          type: Utilization
+      type: Resource
+    minReplicas: 10
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: nipun-deployment
+  status:
+    conditions:
+    - lastTransitionTime: "2025-06-09T07:48:25Z"
+      message: recommended size matches current size
+      reason: ReadyForNewScale
+      status: "True"
+      type: AbleToScale
+    - lastTransitionTime: "2025-09-29T06:39:24Z"
+      message: the HPA was able to successfully calculate a replica count from memory
+        resource utilization (percentage of request)
+      reason: ValidMetricFound
+      status: "True"
+      type: ScalingActive
+    - lastTransitionTime: "2025-09-29T07:02:14Z"
+      message: the desired replica count is less than the minimum replica count
+      reason: TooFewReplicas
+      status: "True"
+      type: ScalingLimited
+    currentMetrics:
+    - resource:
+        current:
+          averageUtilization: 0
+          averageValue: 22m
+        name: cpu
+      type: Resource
+    - resource:
+        current:
+          averageUtilization: 29
+          averageValue: 1287615283200m
+        name: memory
+      type: Resource
+    currentReplicas: 10
+    desiredReplicas: 10
+    lastScaleTime: "2025-09-29T06:58:58Z"
+kind: List
+metadata:
+  resourceVersion: ""
+

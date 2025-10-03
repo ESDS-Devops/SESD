@@ -1,0 +1,18 @@
+ kubectl get ns
+NAME              STATUS   AGE
+default           Active   122d
+demo              Active   63d
+english-ai        Active   100d
+gpu-operator      Active   61d
+ingress-nginx     Active   119d
+kube-flannel      Active   122d
+kube-node-lease   Active   122d
+kube-public       Active   122d
+kube-system       Active   122d
+marathi-ai        Active   102d
+marathi-gpu       Active   59d
+metallb-system    Active   118d
+monitoring        Active   111d
+nipun-app         Active   119d
+redis             Active   115d
+

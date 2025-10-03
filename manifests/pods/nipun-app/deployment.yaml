@@ -1,0 +1,116 @@
+kubectl get deploy -n nipun-app
+NAME               READY   UP-TO-DATE   AVAILABLE   AGE
+nipun-deployment   10/10   10           10          118d
+root@Bastion-Host:~# kubectl get deploy -n nipun-app -o yaml
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "103"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"name":"nipun-deployment","namespace":"nipun-app"},"spec":{"progressDeadlineSeconds":600,"replicas":3,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"nipun"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"creationTimestamp":null,"labels":{"app":"nipun"}},"spec":{"containers":[{"image":"harbor.sesd.local/testharbor/nipun:latest","imagePullPolicy":"Always","livenessProbe":{"failureThreshold":3,"httpGet":{"path":"/health","port":8000,"scheme":"HTTP"},"initialDelaySeconds":180,"periodSeconds":10,"successThreshold":1,"timeoutSeconds":5},"name":"nipun","ports":[{"containerPort":8000,"protocol":"TCP"}],"readinessProbe":{"failureThreshold":1,"httpGet":{"path":"/health","port":8000,"scheme":"HTTP"},"initialDelaySeconds":180,"periodSeconds":5,"successThreshold":1,"timeoutSeconds":2},"resources":{"limits":{"cpu":"2","memory":"4Gi"},"requests":{"cpu":"2","memory":"4Gi"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","imagePullSecrets":[{"name":"harbor-secret"}],"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":3,"conditions":[{"lastTransitionTime":"2025-06-05T10:29:51Z","lastUpdateTime":"2025-06-05T11:44:59Z","message":"ReplicaSet \"nipun-deployment-7dc68fd876\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"lastTransitionTime":"2025-06-05T13:54:34Z","lastUpdateTime":"2025-06-05T13:54:34Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"}],"observedGeneration":3,"readyReplicas":3,"replicas":3,"updatedReplicas":3}}
+    creationTimestamp: "2025-06-06T11:16:38Z"
+    generation: 669
+    labels:
+      admission.datadoghq.com/enabled: "true"
+      tags.datadoghq.com/env: prod
+      tags.datadoghq.com/service: my-python-api
+      tags.datadoghq.com/version: 1.0.0
+    name: nipun-deployment
+    namespace: nipun-app
+    resourceVersion: "51901601"
+    uid: e522aa04-7122-4c6a-9c47-54f81be3cd9f
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 10
+    revisionHistoryLimit: 5
+    selector:
+      matchLabels:
+        app: nipun
+    strategy:
+      rollingUpdate:
+        maxSurge: 50%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-08-20T14:20:47+05:30"
+        creationTimestamp: null
+        labels:
+          app: nipun
+      spec:
+        containers:
+        - command:
+          - sh
+          - -c
+          - exec gunicorn main:app -w 8 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000
+            --timeout 300 --graceful-timeout 300 --worker-connections 1000 --threads
+            2
+          image: harbor.sesd.local/testharbor/nipun:new-minio5
+          imagePullPolicy: Always
+          livenessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 90
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 290
+          name: nipun
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          readinessProbe:
+            failureThreshold: 15
+            httpGet:
+              path: /health
+              port: 8000
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 290
+          resources:
+            limits:
+              cpu: "5"
+              memory: 12Gi
+            requests:
+              cpu: "5"
+              memory: 4Gi
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: harbor-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 10
+    conditions:
+    - lastTransitionTime: "2025-07-08T06:46:39Z"
+      lastUpdateTime: "2025-09-26T07:08:34Z"
+      message: ReplicaSet "nipun-deployment-5d98d4fd44" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-09-29T06:43:38Z"
+      lastUpdateTime: "2025-09-29T06:43:38Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 669
+    readyReplicas: 10
+    replicas: 10
+    updatedReplicas: 10
+kind: List
+metadata:
+  resourceVersion: ""
+
