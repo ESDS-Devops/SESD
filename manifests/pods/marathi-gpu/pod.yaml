@@ -1,0 +1,4 @@
+kubectl get po -n marathi-gpu
+NAME                           READY   STATUS    RESTARTS   AGE
+marathi-api-65776c785d-ts45m   1/1     Running   0          15d
+

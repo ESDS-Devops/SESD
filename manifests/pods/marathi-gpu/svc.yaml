@@ -1,0 +1,44 @@
+kubectl get svc -n marathi-gpu
+NAME          TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+marathi-api   NodePort   10.100.173.10   <none>        8000:30080/TCP   49d
+root@Bastion-Host:~# kubectl get svc -n marathi-gpu -o yaml
+apiVersion: v1
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"v1","kind":"Service","metadata":{"annotations":{},"labels":{"app":"marathi-api"},"name":"marathi-api","namespace":"marathi-gpu"},"spec":{"ports":[{"name":"http","nodePort":30080,"port":8000,"targetPort":8000}],"selector":{"app":"marathi-api"},"type":"NodePort"}}
+    creationTimestamp: "2025-08-14T09:40:01Z"
+    labels:
+      app: marathi-api
+    name: marathi-api
+    namespace: marathi-gpu
+    resourceVersion: "25193746"
+    uid: fac80175-d91e-41bc-b905-64b5841fa16d
+  spec:
+    clusterIP: 10.100.173.10
+    clusterIPs:
+    - 10.100.173.10
+    externalTrafficPolicy: Cluster
+    internalTrafficPolicy: Cluster
+    ipFamilies:
+    - IPv4
+    ipFamilyPolicy: SingleStack
+    ports:
+    - name: http
+      nodePort: 30080
+      port: 8000
+      protocol: TCP
+      targetPort: 8000
+    selector:
+      app: marathi-api
+    sessionAffinity: None
+    type: NodePort
+  status:
+    loadBalancer: {}
+kind: List
+metadata:
+  resourceVersion: ""
+

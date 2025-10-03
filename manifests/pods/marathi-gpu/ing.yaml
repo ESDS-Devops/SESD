@@ -1,0 +1,46 @@
+kubectl get ing -n marathi-gpu
+NAME                  CLASS   HOSTS                ADDRESS        PORTS   AGE
+marathi-api-ingress   nginx   marathigpu.vopa.in   10.48.222.19   80      49d
+root@Bastion-Host:~# kubectl get ing -n marathi-gpu -o yaml
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    annotations:
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"marathi-api-ingress","namespace":"marathi-gpu"},"spec":{"ingressClassName":"nginx","rules":[{"host":"marathigpu.vopa.in","http":{"paths":[{"backend":{"service":{"name":"marathi-api","port":{"number":8000}}},"path":"/","pathType":"Prefix"}]}}]}}
+      nginx.ingress.kubernetes.io/proxy-body-size: 200m
+      nginx.ingress.kubernetes.io/proxy-buffering: "off"
+      nginx.ingress.kubernetes.io/proxy-next-upstream: "off"
+      nginx.ingress.kubernetes.io/proxy-next-upstream-tries: "3"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+      nginx.ingress.kubernetes.io/upstream-max-conns: "4"
+    creationTimestamp: "2025-08-14T09:40:01Z"
+    generation: 1
+    name: marathi-api-ingress
+    namespace: marathi-gpu
+    resourceVersion: "26207698"
+    uid: 4d63f235-ebae-4730-bc52-0b02ddd90938
+  spec:
+    ingressClassName: nginx
+    rules:
+    - host: marathigpu.vopa.in
+      http:
+        paths:
+        - backend:
+            service:
+              name: marathi-api
+              port:
+                number: 8000
+          path: /
+          pathType: Prefix
+  status:
+    loadBalancer:
+      ingress:
+      - ip: 10.48.222.19
+kind: List
+metadata:
+  resourceVersion: ""
+

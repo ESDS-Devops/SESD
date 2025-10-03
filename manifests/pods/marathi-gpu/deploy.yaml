@@ -1,0 +1,105 @@
+kubectl get deploy -n marathi-gpu
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+marathi-api   1/1     1            1           49d
+root@Bastion-Host:~# kubectl get deploy -n marathi-gpu -o yaml
+apiVersion: v1
+items:
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    annotations:
+      deployment.kubernetes.io/revision: "109"
+      kubectl.kubernetes.io/last-applied-configuration: |
+        {"apiVersion":"apps/v1","kind":"Deployment","metadata":{"annotations":{},"labels":{"app":"marathi-api"},"name":"marathi-api","namespace":"marathi-gpu"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"app":"marathi-api"}},"strategy":{"rollingUpdate":{"maxSurge":"25%","maxUnavailable":"25%"},"type":"RollingUpdate"},"template":{"metadata":{"annotations":{"kubectl.kubernetes.io/restartedAt":"2025-08-15T10:23:17+05:30"},"creationTimestamp":null,"labels":{"app":"marathi-api"}},"spec":{"containers":[{"command":["sh","-c","echo \"Waiting for CUDA to be available\"\nuntil python3 -c \"import torch; exit(0) if torch.cuda.is_available() else exit(1)\"; do\n  sleep 2\ndone\necho \"CUDA is available. Starting application\"\nexec gunicorn main:app -w 8 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout 600 --max-requests 0 --max-requests-jitter 0 --graceful-timeout 600 --keep-alive 90\n"],"env":[{"name":"NVIDIA_VISIBLE_DEVICES","value":"all"},{"name":"NVIDIA_DRIVER_CAPABILITIES","value":"compute,utility"},{"name":"OMP_NUM_THREADS","value":"16"},{"name":"MKL_NUM_THREADS","value":"16"},{"name":"TOKENIZERS_PARALLELISM","value":"false"}],"image":"harbor.sesd.local/testharbor/marathi-api:cuda-128-fixed","imagePullPolicy":"IfNotPresent","name":"marathi","ports":[{"containerPort":8000,"protocol":"TCP"}],"resources":{"limits":{"nvidia.com/gpu":"1"}},"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File"}],"dnsPolicy":"ClusterFirst","imagePullSecrets":[{"name":"harbor-secret"}],"restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30}}},"status":{"availableReplicas":1,"collisionCount":1,"conditions":[{"lastTransitionTime":"2025-09-11T08:11:50Z","lastUpdateTime":"2025-09-12T10:53:57Z","message":"ReplicaSet \"marathi-api-7d4db8bb6\" has successfully progressed.","reason":"NewReplicaSetAvailable","status":"True","type":"Progressing"},{"lastTransitionTime":"2025-09-12T10:54:07Z","lastUpdateTime":"2025-09-12T10:54:07Z","message":"Deployment has minimum availability.","reason":"MinimumReplicasAvailable","status":"True","type":"Available"}],"observedGeneration":172,"readyReplicas":1,"replicas":1,"updatedReplicas":1}}
+    creationTimestamp: "2025-08-14T09:40:01Z"
+    generation: 265
+    labels:
+      app: marathi-api
+    name: marathi-api
+    namespace: marathi-gpu
+    resourceVersion: "44845387"
+    uid: 7c8d3429-f493-431a-80c9-e98849dbb0be
+  spec:
+    progressDeadlineSeconds: 600
+    replicas: 1
+    revisionHistoryLimit: 10
+    selector:
+      matchLabels:
+        app: marathi-api
+    strategy:
+      rollingUpdate:
+        maxSurge: 25%
+        maxUnavailable: 25%
+      type: RollingUpdate
+    template:
+      metadata:
+        annotations:
+          kubectl.kubernetes.io/restartedAt: "2025-08-15T10:23:17+05:30"
+        creationTimestamp: null
+        labels:
+          app: marathi-api
+      spec:
+        containers:
+        - command:
+          - sh
+          - -c
+          - |
+            echo "Waiting for CUDA to be available"
+            until python3 -c "import torch; exit(0) if torch.cuda.is_available() else exit(1)"; do
+              sleep 2
+            done
+            echo "CUDA is available. Starting application"
+            exec gunicorn main:app -w 16 -k uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --timeout 600 --max-requests 0 --max-requests-jitter 0 --graceful-timeout 600 --keep-alive 90
+          env:
+          - name: NVIDIA_VISIBLE_DEVICES
+            value: all
+          - name: NVIDIA_DRIVER_CAPABILITIES
+            value: compute,utility
+          - name: OMP_NUM_THREADS
+            value: "16"
+          - name: MKL_NUM_THREADS
+            value: "16"
+          - name: TOKENIZERS_PARALLELISM
+            value: "false"
+          image: harbor.sesd.local/testharbor/marathi:marathitest15
+          imagePullPolicy: IfNotPresent
+          name: marathi
+          ports:
+          - containerPort: 8000
+            protocol: TCP
+          resources:
+            limits:
+              nvidia.com/gpu: "1"
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        dnsPolicy: ClusterFirst
+        imagePullSecrets:
+        - name: harbor-secret
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
+        terminationGracePeriodSeconds: 30
+  status:
+    availableReplicas: 1
+    collisionCount: 1
+    conditions:
+    - lastTransitionTime: "2025-09-11T08:11:50Z"
+      lastUpdateTime: "2025-09-17T08:05:59Z"
+      message: ReplicaSet "marathi-api-65776c785d" has successfully progressed.
+      reason: NewReplicaSetAvailable
+      status: "True"
+      type: Progressing
+    - lastTransitionTime: "2025-09-17T08:06:03Z"
+      lastUpdateTime: "2025-09-17T08:06:03Z"
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: "True"
+      type: Available
+    observedGeneration: 265
+    readyReplicas: 1
+    replicas: 1
+    updatedReplicas: 1
+kind: List
+metadata:
+  resourceVersion: ""
+
